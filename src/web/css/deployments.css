@@ -1,0 +1,59 @@
+
+.release-meta{display:flex;flex-wrap:wrap;justify-content:space-between;align-items:baseline;gap:8px 16px;color:var(--secondary)}
+.release-meta p{margin:0;font-size:14px;max-width:none}
+.release-checked{margin-left:auto;text-align:right}
+.release-meta .release-refresh-warning{flex-basis:100%;color:var(--warn)}
+.release-toolbar{display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:16px;margin:16px 0}
+.release-toolbar form{display:flex;gap:8px;flex:1 1 360px;max-width:600px}
+.release-toolbar .search-input{flex:1;min-width:0;margin:0}
+.release-toolbar input{min-width:0}
+.release-toolbar .filters{display:flex;flex-wrap:wrap;gap:8px;margin:0;align-items:center}
+.release-toolbar .button{min-height:44px;font-size:15px}
+.release-toolbar [aria-current=page]{border-color:var(--accent);background:var(--accent-wash);color:var(--accent)}
+#release-results{container-type:inline-size}
+.release-list{display:grid;align-items:start;grid-template-columns:repeat(3,minmax(0,1fr));gap:18px;margin-top:14px}
+.release-card{scroll-margin-top:24px}
+.release-card-overview{display:flex;flex-direction:column;gap:16px;min-height:208px;min-width:0}
+.release-card-summary{margin-top:auto;min-height:88px}
+.release-card-summary p{margin:0;font-size:16px;color:var(--ink);max-width:none;overflow-wrap:anywhere}
+.release-card-summary code{font-size:15px}
+.release-card-summary time{display:block;margin-top:6px;font-size:15px;color:var(--secondary)}
+.release-card-summary .release-card-note{margin-top:8px;font-size:15px;color:var(--secondary)}
+.release-card-actions{display:grid;grid-template-columns:minmax(0,1fr) auto;border-top:1px solid var(--line);margin-top:12px;padding-top:8px}
+.release-card-actions>.deploy-release-details{grid-area:1/1/2/3;margin:0;border:0}
+.release-card-actions>.deploy-release-details>summary{width:fit-content;max-width:40%;padding:10px 0}
+.release-card-action{grid-area:1/2/2/3;align-self:start;text-align:right;max-width:220px}
+.release-card-action a,.release-detail-links a{display:inline-flex;align-items:center;min-height:44px;font-size:16px;font-weight:600}
+.release-detail-links{margin-top:12px;border-top:1px solid var(--line)}
+.release-identity{display:flex;gap:14px;align-items:flex-start;min-width:0}
+.release-identity>div{min-width:0}
+.release-identity h2{font-size:20px;margin:0;overflow-wrap:anywhere}
+.release-identity p{font-size:15px;margin:6px 0 0;overflow-wrap:anywhere}
+.release-identity .app-mark{flex:0 0 42px;width:42px;height:42px}
+.release-workflow+.release-workflow{margin-top:18px;padding-top:18px;border-top:1px solid var(--line)}
+.release-workflow-heading{display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:8px 12px}
+.release-workflow h3{font-size:16px;color:var(--secondary);margin:0}
+.release-workflow .status,.release-unconnected .status{font-size:15px;white-space:normal}
+.release-workflow p,.release-unconnected p{font-size:15px;margin:10px 0 4px;overflow-wrap:anywhere}
+.release-commit{display:inline-block;font-size:14px;color:var(--secondary);margin-left:4px;font-variant-numeric:tabular-nums}
+.release-links{display:flex;align-items:center;gap:8px 20px;flex-wrap:wrap;font-size:15px}
+.release-links a{display:inline-flex;align-items:center;min-height:44px}
+.release-links .icon{width:16px;height:16px;vertical-align:middle}
+.release-last-success{color:var(--secondary)}
+.release-unconnected .fine-print{font-size:14px}
+.release-list>.empty{grid-column:1/-1}
+.release-list>.empty .button{margin-top:16px}
+@container(max-width:1099px){.release-list{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@container(max-width:639px){.release-list{grid-template-columns:minmax(0,1fr)}}
+@media(max-width:760px){
+  .release-meta .release-checked{flex-basis:100%;margin-left:0;text-align:left}
+  .release-toolbar form{flex-basis:100%;max-width:none}
+  .release-toolbar .filters{flex-wrap:wrap}
+}
+
+.release-workflow-details{min-width:0}
+.release-workflow-details>summary{min-height:44px;padding:10px 0;font-size:15px;color:var(--accent);cursor:pointer;font-weight:600}
+.release-links:has(.release-workflow-details[open]){align-items:flex-start}
+.release-workflow-details[open]{flex-basis:100%}
+
+

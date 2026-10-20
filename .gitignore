@@ -1,0 +1,9 @@
+node_modules/
+dist/
+switchboard.config.json
+switchboard.config.json.bak
+status/status.json
+heartbeats/*.json
+.env
+*.log
+.DS_Store

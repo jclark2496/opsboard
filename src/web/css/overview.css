@@ -1,0 +1,77 @@
+
+/* Independent columns keep the overview useful as evidence changes height. */
+body[data-view=overview] .page-heading{margin-bottom:24px}
+body[data-view=overview] .overview-grid{grid-template-columns:minmax(0,2fr) minmax(320px,1fr);grid-template-areas:"main attention" "main context";grid-template-rows:auto 1fr;align-items:start;gap:28px}
+body[data-view=overview] .overview-grid:has(>.attention-panel[hidden]){grid-template-areas:"main context";grid-template-rows:auto}
+body[data-view=overview] .overview-grid>.attention-panel[hidden]{display:none}
+body[data-view=overview] .overview-grid .primary-column{grid-area:main}
+body[data-view=overview] .overview-grid>.attention-panel{grid-area:attention}
+body[data-view=overview] .overview-grid .secondary-column{grid-area:context}
+body[data-view=overview] .overview-grid .primary-column,body[data-view=overview] .overview-grid .secondary-column{display:grid;grid-template-columns:minmax(0,1fr);align-content:start;gap:32px}
+body[data-view=overview] .overview-grid .section-head{min-height:36px;margin-bottom:16px;align-items:center}
+body[data-view=overview] .overview-grid .section-head h2{font-size:20px}
+body[data-view=overview] .overview-grid .overview-apps,body[data-view=overview] .overview-grid .agent-section{margin:0}
+body[data-view=overview] .overview-grid .attention-panel{padding:0;border:0;background:none}
+/* Match the Home lab row so the first card surfaces share one baseline. */
+body[data-view=overview] .overview-grid .location-head,body[data-view=overview] .overview-grid .attention-summary{min-height:24px;margin:0 0 12px;line-height:24px}
+body[data-view=overview] .overview-grid .attention-summary{color:var(--secondary);font-size:14px}
+body[data-view=overview] .overview-grid .attention-list{border:1px solid var(--line);border-radius:var(--radius);background:var(--surface);padding:0 18px}
+body[data-view=overview] .overview-grid .attention-item{padding:16px 0}
+body[data-view=overview] .overview-grid .attention-item>span:nth-child(2){min-width:0;flex:1}
+body[data-view=overview] .overview-grid .attention-item span span{font-size:14px;line-height:1.5}
+body[data-view=overview] .overview-grid .attention-item strong{font-size:17px;line-height:1.4}
+body[data-view=overview] .overview-grid .attention-symbol{width:24px;height:24px;margin-top:1px}
+body[data-view=overview] .overview-grid .machine-card{padding:18px}
+body[data-view=overview] .overview-grid .machine-top{top:18px;left:18px}
+body[data-view=overview] .overview-grid .machine-card h3{font-size:18px}
+body[data-view=overview] .overview-grid .machine-card p{flex:none;min-height:0;margin-top:4px;margin-bottom:0;font-size:15px;line-height:1.4}
+body[data-view=overview] .overview-grid .machine-readings{margin-top:12px;padding-top:12px}
+body[data-view=overview] .overview-grid .empty-readings{min-height:0;font-size:14px}
+body[data-view=overview] .overview-grid .machine-bottom{margin-top:12px}
+body[data-view=overview] .overview-grid .machine-report-time{font-size:13px;margin-top:8px}
+body[data-view=overview] .overview-grid .machine-bottom{flex-wrap:wrap;gap:8px}
+body[data-view=overview] .overview-grid .machine-bottom>[data-machine-report-time]{display:block;margin-left:auto}
+body[data-view=overview] .overview-grid .machine-bottom .machine-report-time{margin:0}
+body[data-view=overview] .overview-grid .machine-report-time.readings-old{color:var(--warn)}
+body[data-view=overview] .overview-grid .machine-grid{gap:16px;margin-bottom:20px}
+body[data-view=overview] .overview-grid .home-strip{margin-bottom:0;padding:18px}
+body[data-view=overview] .overview-grid .overview-apps{container-type:inline-size}
+body[data-view=overview] .overview-grid .app-grid{grid-template-columns:repeat(2,minmax(0,1fr))}
+body[data-view=overview] .overview-grid .app-card{min-height:156px}
+.overview-preview-note{margin:0 0 20px;font-size:14px;color:var(--secondary)}
+.overview-preview-note a{margin-left:6px;color:var(--accent)}
+.followup-note{color:var(--secondary);font-size:14px;margin:0 0 12px}
+.overview-followup{display:flex;flex-direction:column;gap:8px;padding:18px;border:1px solid var(--line);border-radius:var(--radius);background:var(--surface);color:var(--ink);text-decoration:none}
+.overview-followup:hover{border-color:var(--strong-line)}
+.overview-followup:hover strong{text-decoration:underline}
+.overview-followups .text-button{text-decoration:none}
+.overview-followup strong{font-size:17px;line-height:1.4}
+.overview-followup>span{font-size:14px;color:var(--secondary)}
+.overview-followup .followup-action{display:flex;align-items:center;gap:8px;color:var(--accent);margin-top:4px}
+@media(max-width:1150px){
+ body[data-view=overview] .overview-grid{grid-template-columns:1fr;grid-template-areas:"attention" "main" "context";grid-template-rows:auto;gap:32px}
+ body[data-view=overview] .overview-grid:has(>.attention-panel[hidden]){grid-template-areas:"main" "context"}
+ body[data-view=overview] .overview-grid .secondary-column{grid-template-columns:repeat(2,minmax(0,1fr));gap:24px}
+}
+@media(max-width:760px){
+ body[data-view=overview] .overview-grid .secondary-column{grid-template-columns:1fr}
+ body[data-view=overview] .overview-grid .primary-column,body[data-view=overview] .overview-grid .secondary-column{gap:28px}
+ body[data-view=overview] .overview-grid .machine-card{padding:16px}
+}
+@media(max-width:640px){
+ body[data-view=overview] .overview-grid .machine-grid{grid-template-columns:1fr}
+ body[data-view=overview] .overview-grid .machine-top{position:absolute;top:16px;left:16px;margin:0}
+ body[data-view=overview] .overview-grid .machine-top>.icon{display:none}
+ body[data-view=overview] .overview-grid .machine-card h3,body[data-view=overview] .overview-grid .machine-card p{margin-left:52px}
+ body[data-view=overview] .overview-grid .machine-variant{display:inline}
+ body[data-view=overview] .overview-grid .machine-separator{display:inline}
+ body[data-view=overview] .overview-grid .machine-readings dl{grid-template-columns:1fr;gap:8px}
+ body[data-view=overview] .overview-grid .machine-readings dl>div{display:flex;flex-wrap:wrap;justify-content:space-between;align-items:baseline;gap:4px 12px}
+ body[data-view=overview] .overview-grid .machine-readings dt{margin:0;font-size:14px}
+ body[data-view=overview] .overview-grid .machine-readings dd{font-size:20px}
+ body[data-view=overview] .overview-grid .section-head h2{font-size:19px}
+ body[data-view=overview] .overview-grid .section-head{gap:12px}
+ body[data-view=overview] .overview-grid .app-grid{grid-template-columns:1fr}
+}
+
+

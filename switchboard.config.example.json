@@ -1,0 +1,490 @@
+{
+  "version": 1,
+  "board": {
+    "name": "Your Ops",
+    "wordmark": "your ops",
+    "tagline": "Your operations, in view.",
+    "footer": "Your Ops · private",
+    "timezone": "America/Chicago",
+    "ownerName": "Your name",
+    "ownerInitials": "YN",
+    "ownerRole": "Personal workspace",
+    "operatorLabel": "You",
+    "demo": true,
+    "auth": "none"
+  },
+  "theme": {
+    "mode": "system",
+    "accent": "#2452ce"
+  },
+  "machines": [
+    {
+      "id": "build-box-01",
+      "name": "build-box-01",
+      "role": "Builds, tests, and CI jobs",
+      "kind": "linux",
+      "location": "Home lab",
+      "locationKind": "home",
+      "host": "198.51.100.20",
+      "user": "ci",
+      "auth": "ssh-key",
+      "keyEnv": "SSH_KEY_BUILD_BOX_01",
+      "knownHostsEnv": "SSH_KNOWN_HOSTS",
+      "icon": "monitor",
+      "checks": [
+        { "adapter": "heartbeat", "options": { "file": "heartbeats/build-box-01.json", "maxAge": "15m", "tokenEnv": "HEARTBEAT_TOKEN_BUILD_BOX_01" } },
+        { "adapter": "ssh-uptime", "options": { "maxAge": "15m" } }
+      ]
+    },
+    {
+      "id": "laptop-dev",
+      "name": "laptop-dev",
+      "role": "Local development machine",
+      "kind": "mac",
+      "location": "Home lab",
+      "locationKind": "home",
+      "host": "192.0.2.44",
+      "user": "dev",
+      "auth": "ssh-agent",
+      "knownHostsEnv": "SSH_KNOWN_HOSTS",
+      "icon": "monitor",
+      "checks": [
+        { "adapter": "heartbeat", "options": { "file": "heartbeats/laptop-dev.json", "maxAge": "15m", "tokenEnv": "HEARTBEAT_TOKEN_LAPTOP_DEV" } }
+      ]
+    },
+    {
+      "id": "acme-vps-1",
+      "name": "acme-vps-1",
+      "role": "APIs, docs, and status pages",
+      "kind": "vps",
+      "location": "Cloud",
+      "locationKind": "cloud",
+      "host": "203.0.113.10",
+      "user": "deploy",
+      "auth": "ssh-key",
+      "keyEnv": "SSH_KEY_ACME_VPS_1",
+      "knownHostsEnv": "SSH_KNOWN_HOSTS",
+      "icon": "server",
+      "checks": [
+        { "adapter": "ssh-uptime", "options": { "maxAge": "15m" } },
+        { "adapter": "heartbeat", "options": { "file": "heartbeats/acme-vps-1.json", "maxAge": "15m", "tokenEnv": "HEARTBEAT_TOKEN_ACME_VPS_1" } }
+      ]
+    },
+    {
+      "id": "acme-vps-2",
+      "name": "acme-vps-2",
+      "role": "Main application host",
+      "kind": "vps",
+      "location": "Cloud",
+      "locationKind": "cloud",
+      "host": "203.0.113.11",
+      "user": "deploy",
+      "auth": "ssh-key",
+      "keyEnv": "SSH_KEY_ACME_VPS_2",
+      "knownHostsEnv": "SSH_KNOWN_HOSTS",
+      "icon": "server",
+      "checks": [
+        { "adapter": "ssh-uptime", "options": { "maxAge": "15m" } },
+        { "adapter": "heartbeat", "options": { "file": "heartbeats/acme-vps-2.json", "maxAge": "15m", "tokenEnv": "HEARTBEAT_TOKEN_ACME_VPS_2" } }
+      ]
+    }
+  ],
+  "apps": [
+    {
+      "id": "example-app",
+      "name": "example-app",
+      "url": "https://app.example.com",
+      "healthUrl": "https://app.example.com/healthz",
+      "hostname": "app.example.com",
+      "host": "acme-vps-2",
+      "repo": "example-org/example-app",
+      "summary": "Sample web application used to show a failing check.",
+      "signIn": "Example IdP. The health check does not sign in.",
+      "dependencies": ["api-gateway"],
+      "checks": [
+        { "adapter": "http", "attention": true, "options": { "expect": [200], "maxAge": "2h" } }
+      ],
+      "troubleshooting": [
+        { "title": "Read the health URL", "text": "Open the health URL from a network that is allowed to see it. A 502 here is the app, not the dashboard." },
+        { "title": "Check the last deploy", "text": "On Deployments, confirm the latest run on main failed before restarting anything." },
+        { "title": "Restart only the app", "text": "Restart the service on its host. Do not rotate tokens as a first step." }
+      ]
+    },
+    {
+      "id": "api-gateway",
+      "name": "api-gateway",
+      "url": "https://api.example.com",
+      "healthUrl": "https://api.example.com/health",
+      "hostname": "api.example.com",
+      "host": "acme-vps-1",
+      "repo": "example-org/api-gateway",
+      "summary": "Public API front door for the sample.",
+      "signIn": "No sign-in on the health URL.",
+      "dependencies": [],
+      "checks": [
+        { "adapter": "http", "options": { "expect": [200], "maxAge": "2h" } }
+      ],
+      "troubleshooting": [
+        { "title": "Confirm the process is up", "text": "A responding health URL means the process answered. It does not prove every route works." }
+      ]
+    },
+    {
+      "id": "docs-site",
+      "name": "docs-site",
+      "url": "https://docs.example.com",
+      "healthUrl": "https://docs.example.com/",
+      "hostname": "docs.example.com",
+      "host": "acme-vps-1",
+      "repo": "example-org/docs-site",
+      "summary": "Documentation site that asks visitors to sign in.",
+      "signIn": "Sign-in required for readers. 401 is the expected answer.",
+      "dependencies": [],
+      "checks": [
+        { "adapter": "http", "options": { "expect": [200, 401], "maxAge": "2h" } }
+      ],
+      "troubleshooting": [
+        { "title": "401 is not an outage", "text": "Sign-in required means the site answered and asked for a session." }
+      ]
+    },
+    {
+      "id": "status-page",
+      "name": "status-page",
+      "url": "https://status.example.com",
+      "healthUrl": "https://status.example.com/",
+      "hostname": "status.example.com",
+      "host": "acme-vps-1",
+      "repo": "example-org/status-page",
+      "summary": "Public status page with no deploy workflow tracked.",
+      "signIn": "Public. No sign-in.",
+      "dependencies": ["api-gateway"],
+      "checks": [
+        { "adapter": "http", "options": { "expect": [200], "maxAge": "2h" } }
+      ],
+      "troubleshooting": [
+        { "title": "Not tracked is honest", "text": "If no workflow is configured, the deploy badge stays Not tracked instead of pretending the last ship succeeded." }
+      ]
+    }
+  ],
+  "repos": [
+    {
+      "id": "repo-example-app",
+      "name": "example-app",
+      "repo": "example-org/example-app",
+      "branch": "main",
+      "workflow": "deploy.yml",
+      "app": "example-app",
+      "tokenEnv": "GITHUB_TOKEN",
+      "checks": [
+        { "adapter": "github-actions", "options": { "workflow": "deploy.yml", "branch": "main", "tokenEnv": "GITHUB_TOKEN" } }
+      ]
+    },
+    {
+      "id": "repo-infra",
+      "name": "infra",
+      "repo": "example-org/infra",
+      "branch": "main",
+      "workflow": "deploy.yml",
+      "tokenEnv": "GITHUB_TOKEN",
+      "checks": [
+        { "adapter": "github-actions", "options": { "workflow": "deploy.yml", "branch": "main", "tokenEnv": "GITHUB_TOKEN" } }
+      ]
+    },
+    {
+      "id": "repo-docs-site",
+      "name": "docs-site",
+      "repo": "example-org/docs-site",
+      "branch": "main",
+      "workflow": "deploy.yml",
+      "app": "docs-site",
+      "tokenEnv": "GITHUB_TOKEN",
+      "checks": [
+        { "adapter": "github-actions", "options": { "workflow": "deploy.yml", "branch": "main", "tokenEnv": "GITHUB_TOKEN" } }
+      ]
+    },
+    {
+      "id": "repo-status-page",
+      "name": "status-page",
+      "repo": "example-org/status-page",
+      "branch": "main",
+      "workflow": "",
+      "app": "status-page",
+      "tokenEnv": "GITHUB_TOKEN",
+      "checks": [
+        { "adapter": "static", "attention": false, "options": { "state": "unknown", "label": "Not tracked", "detail": "No workflow is configured for this repo." } }
+      ]
+    }
+  ],
+  "agents": [
+    {
+      "id": "triage-bot",
+      "name": "triage-bot",
+      "role": "Sorts new issues",
+      "reportsTo": "you",
+      "avatar": "robot-1",
+      "heartbeat": "https://demo.example.com/agents/triage/heartbeat",
+      "checks": [
+        { "adapter": "heartbeat", "options": { "url": "https://demo.example.com/agents/triage/heartbeat", "maxAge": "2h", "tokenEnv": "HEARTBEAT_TOKEN_TRIAGE" } }
+      ]
+    },
+    {
+      "id": "deploy-bot",
+      "name": "deploy-bot",
+      "role": "Ships tagged builds",
+      "reportsTo": "you",
+      "avatar": "robot-2",
+      "heartbeatFile": "heartbeats/deploy-bot.json",
+      "checks": [
+        { "adapter": "heartbeat", "options": { "file": "heartbeats/deploy-bot.json", "maxAge": "2h", "tokenEnv": "HEARTBEAT_TOKEN_DEPLOY" } }
+      ]
+    },
+    {
+      "id": "review-bot",
+      "name": "review-bot",
+      "role": "Reviews pull requests",
+      "reportsTo": "triage-bot",
+      "avatar": "robot-3",
+      "heartbeat": "https://demo.example.com/agents/review/heartbeat",
+      "checks": [
+        { "adapter": "heartbeat", "options": { "url": "https://demo.example.com/agents/review/heartbeat", "maxAge": "2h", "tokenEnv": "HEARTBEAT_TOKEN_REVIEW" } }
+      ]
+    }
+  ],
+  "network": {
+    "places": [
+      {
+        "id": "home-lab",
+        "name": "Home lab",
+        "kind": "home",
+        "note": "Documentation addresses only",
+        "nodes": ["build-box-01", "laptop-dev"]
+      },
+      {
+        "id": "cloud",
+        "name": "Cloud",
+        "kind": "cloud",
+        "note": "Two sample VPS servers",
+        "nodes": ["acme-vps-1", "acme-vps-2"]
+      },
+      {
+        "id": "edge",
+        "name": "Public edge",
+        "kind": "edge",
+        "note": "example.com hostnames",
+        "nodes": ["app:example-app", "app:api-gateway", "app:docs-site", "app:status-page"]
+      }
+    ]
+  },
+  "devices": {
+    "summary": "Network, cameras, lighting, climate, media & appliances",
+    "groups": [
+      {
+        "id": "network",
+        "name": "Network",
+        "summary": "Gateway and access points on documentation addresses.",
+        "icon": "flow",
+        "items": [
+          { "name": "gateway-01", "detail": "192.0.2.1", "state": "ok" },
+          { "name": "ap-north", "detail": "192.0.2.2", "state": "ok" }
+        ]
+      },
+      {
+        "id": "cameras",
+        "name": "Cameras",
+        "summary": "Sample cameras. No live stream is connected.",
+        "icon": "camera",
+        "items": [
+          { "name": "door-cam", "detail": "Responding", "state": "ok" },
+          { "name": "drive-cam", "detail": "No recent data", "state": "stale" }
+        ]
+      },
+      {
+        "id": "lighting",
+        "name": "Lighting",
+        "summary": "Sample lighting group.",
+        "icon": "bulb",
+        "items": [
+          { "name": "porch", "detail": "On schedule", "state": "ok" }
+        ]
+      },
+      {
+        "id": "climate",
+        "name": "Climate",
+        "summary": "Sample thermostat.",
+        "icon": "thermo",
+        "items": [
+          { "name": "hall-stat", "detail": "21 C", "state": "ok" }
+        ]
+      },
+      {
+        "id": "media",
+        "name": "Media",
+        "summary": "Sample media player.",
+        "icon": "media",
+        "items": [
+          { "name": "living-room", "detail": "Idle", "state": "ok" }
+        ]
+      },
+      {
+        "id": "appliances",
+        "name": "Appliances",
+        "summary": "Sample appliance.",
+        "icon": "plug",
+        "items": [
+          { "name": "washer", "detail": "Idle", "state": "ok" }
+        ]
+      }
+    ]
+  },
+  "runbooks": [
+    {
+      "id": "add-a-machine",
+      "title": "Add a machine",
+      "summary": "Put a host on the board without putting a key in git.",
+      "steps": [
+        { "title": "Name the env vars", "text": "Pick SSH_KEY_HOST and HEARTBEAT_TOKEN_HOST. Put the key and the token in the environment or in Actions secrets." },
+        { "title": "Add the row", "text": "In Settings, add the name, documentation-style host, and SSH user. Save the JSON and turn demo mode off." },
+        { "title": "Install the reporter", "text": "On the host, run reporter/heartbeat.mjs against a URL that is only reachable on your private network." },
+        { "title": "Confirm the badge", "text": "Wait for the status Action. Checks normal means a fresh observation. Unknown means nothing has reported." }
+      ]
+    },
+    {
+      "id": "rotate-a-token",
+      "title": "Rotate a token",
+      "summary": "Replace a read-only token without pasting it into the config.",
+      "steps": [
+        { "title": "Create the replacement", "text": "Create a fine-grained token with Actions read and contents read. Do not grant write." },
+        { "title": "Store it as a secret", "text": "Update the Actions secret named by tokenEnv. The config keeps the name only." },
+        { "title": "Re-run the status workflow", "text": "The next collector pass should show Pass. A 401 becomes Token rejected, not a green badge." }
+      ]
+    },
+    {
+      "id": "read-a-failed-deploy",
+      "title": "Read a failed deploy",
+      "summary": "Decide whether the site is down or only the ship failed.",
+      "steps": [
+        { "title": "Separate the two badges", "text": "Website and Deploy are different observations. A failed workflow can sit next to a site that still answers." },
+        { "title": "Ignore pull requests", "text": "A red pull request run is not a failed release. The adapter skips those events." },
+        { "title": "Open the run in the repo", "text": "Use the repository you already listed. The dashboard does not copy logs into the page." }
+      ]
+    }
+  ],
+  "access": [
+    {
+      "id": "github-token",
+      "name": "GitHub read token",
+      "holds": "Actions and contents read for the repos listed here",
+      "where": "Actions secret GITHUB_TOKEN or a fine-grained PAT in GITHUB_STATUS_TOKEN",
+      "note": "The browser never sees this value. Public repos can be read without a token until the rate limit."
+    },
+    {
+      "id": "ssh-keys",
+      "name": "SSH keys",
+      "holds": "One private key per machine, plus a pinned known_hosts file",
+      "where": "SSH_KEY_* and SSH_KNOWN_HOSTS",
+      "note": "The collector writes them to a temp file for the ssh process and deletes them. They are not stored in status JSON."
+    },
+    {
+      "id": "heartbeat-tokens",
+      "name": "Heartbeat tokens",
+      "holds": "One bearer token per host or agent",
+      "where": "HEARTBEAT_TOKEN_* on the reporter and on the receiver",
+      "note": "A token can only identify its own host. Put the receiver on a private network."
+    }
+  ],
+  "knowledge": [
+    {
+      "id": "readme",
+      "name": "Opsboard README",
+      "summary": "Quick start, config reference, deploy, and security notes for this template.",
+      "url": "https://example.com/opsboard/readme"
+    },
+    {
+      "id": "adapters",
+      "name": "Adapter notes",
+      "summary": "How http, github-actions, heartbeat, ssh-uptime, json, and static report state.",
+      "url": "https://example.com/opsboard/adapters"
+    },
+    {
+      "id": "wiki",
+      "name": "Sample wiki",
+      "summary": "Replace this row with your own runbook wiki.",
+      "url": "https://wiki.example.com"
+    }
+  ],
+  "backlog": [
+    {
+      "id": "rotate-infra-token",
+      "title": "Rotate the deploy token for example-org/infra",
+      "state": "warn",
+      "detail": "The sample token is a masked env name, not a real secret. Replace this row with your own follow-up.",
+      "recorded": "Recorded Oct 12, 2026",
+      "due": "Expires in 9 days"
+    }
+  ],
+  "followups": [
+    {
+      "id": "rotate-infra-token",
+      "title": "Rotate the deploy token for example-org/infra",
+      "detail": "Expires in 9 days · Recorded Oct 12, 2026",
+      "href": "backlog.html#rotate-infra-token"
+    }
+  ],
+  "notices": [
+    {
+      "id": "cert-demo",
+      "title": "Renew cert for demo.example.com",
+      "detail": "TLS certificate expires in 6 days",
+      "state": "warn",
+      "href": "apps.html?app=docs-site"
+    }
+  ],
+  "recovery": [
+    {
+      "id": "acme-vps-1-image",
+      "name": "acme-vps-1 disk image",
+      "state": "recorded",
+      "evidence": "Sample snapshot dated Oct 18, 2026",
+      "restore": "Restore the image, then re-pin the host key",
+      "detail": "This is a note you typed. Opsboard does not take the snapshot.",
+      "recorded": "Oct 18, 2026"
+    },
+    {
+      "id": "build-box-01-image",
+      "name": "build-box-01 disk image",
+      "state": "attention",
+      "evidence": "No snapshot inside the freshness window",
+      "restore": "Take a new image before the next risky change",
+      "detail": "Stale evidence stays amber. It is not shown as backed up.",
+      "recorded": "Sep 2, 2026"
+    }
+  ],
+  "automations": [
+    {
+      "id": "nightly-digest",
+      "name": "Nightly digest",
+      "owner": "triage-bot",
+      "schedule": "02:15 local",
+      "state": "ok",
+      "label": "Succeeded",
+      "detail": "Sample job. Last run succeeded."
+    },
+    {
+      "id": "dependency-sweep",
+      "name": "Dependency sweep",
+      "owner": "review-bot",
+      "schedule": "Mondays 06:00",
+      "state": "warn",
+      "label": "Needs a look",
+      "detail": "Sample job opened one pull request that is still waiting."
+    },
+    {
+      "id": "tag-ship",
+      "name": "Tag and ship",
+      "owner": "deploy-bot",
+      "schedule": "On demand",
+      "state": "unknown",
+      "label": "Not run",
+      "detail": "No run recorded in this sample."
+    }
+  ]
+}

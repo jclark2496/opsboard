@@ -1,0 +1,11 @@
+# Timer companion for opsboard-heartbeat.service. Install both under /etc/systemd/system.
+[Unit]
+Description=Run the Opsboard heartbeat every five minutes
+
+[Timer]
+OnBootSec=1min
+OnUnitActiveSec=5min
+Unit=opsboard-heartbeat.service
+
+[Install]
+WantedBy=timers.target

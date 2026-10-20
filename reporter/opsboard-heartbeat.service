@@ -1,0 +1,14 @@
+[Unit]
+Description=Opsboard heartbeat reporter
+After=network-online.target
+
+[Service]
+Type=oneshot
+User=opsboard
+EnvironmentFile=/etc/opsboard/heartbeat.env
+ExecStart=/usr/bin/node /opt/opsboard/reporter/heartbeat.mjs
+NoNewPrivileges=true
+PrivateTmp=true
+
+[Install]
+WantedBy=multi-user.target

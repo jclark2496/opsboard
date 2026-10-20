@@ -1,0 +1,72 @@
+
+/* Agent operations and home evidence use the existing workspace vocabulary. */
+.ops-workspace,.home-systems,.home-inventory{max-width:1250px}
+.ops-intro{margin:0 0 20px}
+.ops-intro h2{font-size:24px}
+.ops-intro p{margin-top:8px;max-width:75ch;color:var(--secondary)}
+.ops-boundary{margin:0 0 28px;max-width:78ch;color:var(--secondary);font-size:16px}
+.ops-subtle,.ops-provenance{font-size:15px;color:var(--secondary);line-height:1.6}
+.ops-provenance{margin-top:16px;max-width:90ch}
+.ops-pending{background:var(--surface-2);padding:16px;border-radius:8px;font-size:16px;line-height:1.6;margin:18px 0}
+.ops-facts{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:22px 28px;padding:0;margin:24px 0;border:0}
+.ops-facts>div{min-width:0;border-top:1px solid var(--line);padding-top:12px}
+.ops-facts dt{font-size:14px;color:var(--secondary);font-weight:400}
+.ops-facts dd{font-size:17px;line-height:1.5;margin:5px 0 0;text-align:left;overflow-wrap:anywhere}
+.agent-operations{margin-top:28px}
+.agent-operations h3{margin-bottom:18px}
+.agent-gateway p{margin-top:10px}
+.agent-gateway{border-top:1px solid var(--line);padding-top:18px;margin-top:18px}
+.agent-operations>a,.automation-body>a{display:inline-flex;gap:10px;align-items:center;min-height:48px}
+.agent-operations>a .icon,.automation-body>a .icon{width:18px;flex-shrink:0}
+.automation-list{background:var(--surface);border:1px solid var(--line);border-radius:12px;overflow:hidden}
+.automation-filters{margin-bottom:20px}
+.home-update-counts dd{font-size:24px;font-weight:650}
+.home-update-counts .needs-attention{color:var(--warn)}
+.home-maintenance-note{margin-top:20px;border-block:1px solid var(--line);padding:18px 0;max-width:85ch;font-size:16px;line-height:1.6}
+.home-maintenance-note strong{display:block;margin-bottom:4px}
+.home-maintenance-note a{display:inline-flex;align-items:center;gap:8px;min-height:44px}
+.home-maintenance-note .icon{width:18px}
+.automation-row{scroll-margin-top:24px}
+.automation-row+.automation-row{border-top:1px solid var(--line)}
+.automation-row>summary{display:grid;grid-template-columns:42px minmax(0,1fr) minmax(180px,.5fr) 20px;align-items:center;gap:20px;padding:24px;cursor:pointer;list-style:none}
+.automation-row>summary::-webkit-details-marker{display:none}
+.automation-row>summary:hover{background:var(--surface-2)}
+.automation-row>summary:focus-visible{outline:3px solid var(--accent);outline-offset:-4px}
+.automation-symbol{display:flex;align-items:center;justify-content:center;width:42px;height:42px;border-radius:10px;background:var(--surface-2);color:var(--secondary)}
+.automation-symbol .icon{width:22px}
+.automation-name strong{font-size:18px}
+.automation-name small,.automation-observation small{display:block;font-size:14px;color:var(--secondary);margin-top:6px;line-height:1.5}
+.automation-observation{display:flex;flex-direction:column;align-items:flex-start}
+.automation-row>summary>.icon{width:18px;color:var(--secondary)}
+.automation-row[open]>summary>.icon{transform:rotate(90deg)}
+.automation-body{padding:0 28px 24px 86px}
+.automation-body>p{max-width:80ch}
+.automation-body .ops-facts{max-width:850px}
+.home-evidence-heading{display:flex;gap:16px;flex-wrap:wrap;align-items:center;margin:24px 0 16px;color:var(--secondary);font-size:15px}
+.home-health-grid{display:grid;grid-template-columns:1fr 1fr;gap:24px}
+.home-health-grid>article{background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:26px;min-width:0}
+.home-health-grid h3{display:flex;align-items:center;gap:12px;font-size:20px}
+.home-health-grid h3>.icon{width:22px;color:var(--secondary);flex-shrink:0}
+.home-evidence-detail{border-top:1px solid var(--line);padding-top:12px}
+.home-evidence-detail summary{cursor:pointer;min-height:44px;display:list-item;align-content:center;color:var(--accent);font-size:16px}
+.home-evidence-detail p{font-size:15px;color:var(--secondary)}
+.home-inventory{margin:42px 0 28px}
+.home-inventory .home-summary{margin:0;padding:24px}
+@media(max-width:1000px){
+  .home-health-grid{grid-template-columns:1fr}
+  .automation-row>summary{grid-template-columns:36px minmax(0,1fr) 20px;gap:16px}
+  .automation-observation{grid-column:2;grid-row:2}
+  .automation-row>summary>.icon{grid-column:3;grid-row:1}
+  .automation-symbol{width:36px;height:36px}
+  .automation-body{padding-left:76px}
+}
+@media(max-width:600px){
+  .home-health-grid>article{padding:20px}
+  .automation-row>summary{padding:20px 16px;gap:12px}
+  .automation-body{padding:0 20px 24px}
+  .ops-facts{grid-template-columns:1fr;gap:16px}
+  .home-inventory .section-head{flex-wrap:wrap;gap:12px}
+  .automation-name small{font-size:15px}
+}
+
+

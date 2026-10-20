@@ -1,0 +1,10 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 128 128" role="img">
+  <title>Robot 4</title>
+  <rect width="128" height="128" fill="#f3eefe"/>
+  <rect x="18" y="36" width="92" height="56" rx="16" fill="#2a2150"/>
+  <circle cx="40" cy="64" r="8" fill="#69d3a4"/>
+  <circle cx="64" cy="64" r="8" fill="#ffda96"/>
+  <circle cx="88" cy="64" r="8" fill="#ffb6be"/>
+  <rect x="46" y="100" width="36" height="10" rx="5" fill="#2a2150"/>
+  <rect x="60" y="22" width="8" height="18" rx="4" fill="#2a2150"/>
+</svg>

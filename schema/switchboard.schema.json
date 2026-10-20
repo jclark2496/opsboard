@@ -1,0 +1,303 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://example.com/opsboard/switchboard.schema.json",
+  "title": "Opsboard switchboard config",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["version", "board"],
+  "properties": {
+    "version": { "const": 1 },
+    "board": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["name"],
+      "properties": {
+        "name": { "type": "string", "minLength": 1, "maxLength": 80 },
+        "wordmark": { "type": "string", "maxLength": 80 },
+        "tagline": { "type": "string", "maxLength": 160 },
+        "footer": { "type": "string", "maxLength": 120 },
+        "timezone": { "type": "string", "maxLength": 80 },
+        "ownerName": { "type": "string", "maxLength": 80 },
+        "ownerInitials": { "type": "string", "maxLength": 4 },
+        "ownerRole": { "type": "string", "maxLength": 80 },
+        "operatorLabel": { "type": "string", "maxLength": 40 },
+        "demo": { "type": "boolean" },
+        "auth": { "type": "string", "enum": ["none", "gate"] }
+      }
+    },
+    "theme": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "mode": { "type": "string", "enum": ["light", "dark", "system"] },
+        "accent": { "type": "string", "pattern": "^#[0-9a-fA-F]{6}$" }
+      }
+    },
+    "machines": { "type": "array", "items": { "$ref": "#/$defs/machine" } },
+    "apps": { "type": "array", "items": { "$ref": "#/$defs/app" } },
+    "repos": { "type": "array", "items": { "$ref": "#/$defs/repo" } },
+    "agents": { "type": "array", "items": { "$ref": "#/$defs/agent" } },
+    "network": { "$ref": "#/$defs/network" },
+    "devices": { "$ref": "#/$defs/devices" },
+    "runbooks": { "type": "array", "items": { "$ref": "#/$defs/runbook" } },
+    "access": { "type": "array", "items": { "$ref": "#/$defs/access" } },
+    "knowledge": { "type": "array", "items": { "$ref": "#/$defs/knowledge" } },
+    "backlog": { "type": "array", "items": { "$ref": "#/$defs/backlog" } },
+    "followups": { "type": "array", "items": { "$ref": "#/$defs/followup" } },
+    "notices": { "type": "array", "items": { "$ref": "#/$defs/notice" } },
+    "recovery": { "type": "array", "items": { "$ref": "#/$defs/recovery" } },
+    "automations": { "type": "array", "items": { "$ref": "#/$defs/automation" } }
+  },
+  "$defs": {
+    "id": { "type": "string", "pattern": "^[a-z0-9][a-z0-9-]{0,63}$" },
+    "check": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["adapter"],
+      "properties": {
+        "adapter": { "type": "string", "enum": ["http", "github-actions", "heartbeat", "ssh-uptime", "json", "static"] },
+        "attention": { "type": "boolean" },
+        "options": { "type": "object", "additionalProperties": true }
+      }
+    },
+    "machine": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["id", "name"],
+      "properties": {
+        "id": { "$ref": "#/$defs/id" },
+        "name": { "type": "string", "minLength": 1 },
+        "role": { "type": "string" },
+        "kind": { "type": "string", "enum": ["linux", "mac", "windows", "vps", "nas"] },
+        "location": { "type": "string" },
+        "locationKind": { "type": "string", "enum": ["home", "cloud", "edge"] },
+        "host": { "type": "string", "maxLength": 253 },
+        "user": { "type": "string", "maxLength": 64 },
+        "auth": { "type": "string", "enum": ["ssh-key", "ssh-agent"] },
+        "keyEnv": { "type": "string", "pattern": "^[A-Z][A-Z0-9_]{0,80}$" },
+        "knownHostsEnv": { "type": "string", "pattern": "^[A-Z][A-Z0-9_]{0,80}$" },
+        "icon": { "type": "string" },
+        "checks": { "type": "array", "items": { "$ref": "#/$defs/check" } }
+      }
+    },
+    "app": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["id", "name"],
+      "properties": {
+        "id": { "$ref": "#/$defs/id" },
+        "name": { "type": "string", "minLength": 1 },
+        "url": { "type": "string" },
+        "healthUrl": { "type": "string" },
+        "hostname": { "type": "string" },
+        "host": { "type": "string" },
+        "repo": { "type": "string" },
+        "summary": { "type": "string" },
+        "signIn": { "type": "string" },
+        "dependencies": { "type": "array", "items": { "type": "string" } },
+        "icon": { "type": "string" },
+        "checks": { "type": "array", "items": { "$ref": "#/$defs/check" } },
+        "troubleshooting": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": ["title", "text"],
+            "properties": { "title": { "type": "string" }, "text": { "type": "string" } }
+          }
+        }
+      }
+    },
+    "repo": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["id", "repo"],
+      "properties": {
+        "id": { "$ref": "#/$defs/id" },
+        "name": { "type": "string" },
+        "repo": { "type": "string", "pattern": "^[A-Za-z0-9_.-]+/[A-Za-z0-9_.-]+$" },
+        "branch": { "type": "string" },
+        "workflow": { "type": "string" },
+        "app": { "type": "string" },
+        "tokenEnv": { "type": "string", "pattern": "^[A-Z][A-Z0-9_]{0,80}$" },
+        "checks": { "type": "array", "items": { "$ref": "#/$defs/check" } }
+      }
+    },
+    "agent": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["id", "name"],
+      "properties": {
+        "id": { "$ref": "#/$defs/id" },
+        "name": { "type": "string" },
+        "role": { "type": "string" },
+        "reportsTo": { "type": ["string", "null"] },
+        "avatar": { "type": "string", "pattern": "^robot-[1-6]$" },
+        "heartbeat": { "type": "string" },
+        "heartbeatFile": { "type": "string" },
+        "checks": { "type": "array", "items": { "$ref": "#/$defs/check" } }
+      }
+    },
+    "network": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "places": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": ["id", "name"],
+            "properties": {
+              "id": { "$ref": "#/$defs/id" },
+              "name": { "type": "string" },
+              "kind": { "type": "string" },
+              "note": { "type": "string" },
+              "nodes": { "type": "array", "items": { "type": "string" } }
+            }
+          }
+        }
+      }
+    },
+    "devices": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "summary": { "type": "string" },
+        "groups": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": ["id", "name"],
+            "properties": {
+              "id": { "$ref": "#/$defs/id" },
+              "name": { "type": "string" },
+              "summary": { "type": "string" },
+              "icon": { "type": "string" },
+              "items": {
+                "type": "array",
+                "items": {
+                  "type": "object",
+                  "additionalProperties": false,
+                  "required": ["name"],
+                  "properties": {
+                    "name": { "type": "string" },
+                    "detail": { "type": "string" },
+                    "state": { "type": "string" }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "runbook": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["id", "title"],
+      "properties": {
+        "id": { "$ref": "#/$defs/id" },
+        "title": { "type": "string" },
+        "summary": { "type": "string" },
+        "steps": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": ["title", "text"],
+            "properties": { "title": { "type": "string" }, "text": { "type": "string" } }
+          }
+        }
+      }
+    },
+    "access": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["id", "name"],
+      "properties": {
+        "id": { "$ref": "#/$defs/id" },
+        "name": { "type": "string" },
+        "holds": { "type": "string" },
+        "where": { "type": "string" },
+        "note": { "type": "string" }
+      }
+    },
+    "knowledge": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["id", "name"],
+      "properties": {
+        "id": { "$ref": "#/$defs/id" },
+        "name": { "type": "string" },
+        "summary": { "type": "string" },
+        "url": { "type": "string" }
+      }
+    },
+    "backlog": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["id", "title"],
+      "properties": {
+        "id": { "$ref": "#/$defs/id" },
+        "title": { "type": "string" },
+        "state": { "type": "string" },
+        "detail": { "type": "string" },
+        "recorded": { "type": "string" },
+        "due": { "type": "string" }
+      }
+    },
+    "followup": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["id", "title"],
+      "properties": {
+        "id": { "$ref": "#/$defs/id" },
+        "title": { "type": "string" },
+        "detail": { "type": "string" },
+        "href": { "type": "string" }
+      }
+    },
+    "notice": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["id", "title"],
+      "properties": {
+        "id": { "$ref": "#/$defs/id" },
+        "title": { "type": "string" },
+        "detail": { "type": "string" },
+        "state": { "type": "string", "enum": ["ok", "warn", "fail", "stale", "unknown"] },
+        "href": { "type": "string" }
+      }
+    },
+    "recovery": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["id", "name"],
+      "properties": {
+        "id": { "$ref": "#/$defs/id" },
+        "name": { "type": "string" },
+        "state": { "type": "string" },
+        "evidence": { "type": "string" },
+        "restore": { "type": "string" },
+        "detail": { "type": "string" },
+        "recorded": { "type": "string" }
+      }
+    },
+    "automation": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["id", "name"],
+      "properties": {
+        "id": { "$ref": "#/$defs/id" },
+        "name": { "type": "string" },
+        "owner": { "type": "string" },
+        "schedule": { "type": "string" },
+        "state": { "type": "string" },
+        "label": { "type": "string" },
+        "detail": { "type": "string" }
+      }
+    }
+  }
+}

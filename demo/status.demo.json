@@ -1,0 +1,191 @@
+{
+  "schemaVersion": 1,
+  "demo": true,
+  "observations": [
+    {
+      "id": "machine:build-box-01",
+      "kind": "machine",
+      "target": "build-box-01",
+      "adapter": "heartbeat",
+      "state": "stale",
+      "label": "No recent data",
+      "ageMs": 7200000,
+      "expiresAfter": "15m",
+      "detail": "No machine report in 2 hours · last seen 198.51.100.20",
+      "metrics": { "cpu": 31, "memory": 58, "disk": 64 },
+      "attention": true
+    },
+    {
+      "id": "machine:laptop-dev",
+      "kind": "machine",
+      "target": "laptop-dev",
+      "adapter": "heartbeat",
+      "state": "ok",
+      "label": "Checks normal",
+      "ageMs": 240000,
+      "expiresAfter": "15m",
+      "detail": "Heartbeat is fresh",
+      "metrics": { "cpu": 12, "memory": 47, "disk": 52 }
+    },
+    {
+      "id": "machine:acme-vps-1",
+      "kind": "machine",
+      "target": "acme-vps-1",
+      "adapter": "ssh-uptime",
+      "state": "ok",
+      "label": "Checks normal",
+      "ageMs": 180000,
+      "expiresAfter": "15m",
+      "detail": "Uptime check succeeded",
+      "metrics": { "cpu": 18, "memory": 41, "disk": 37 }
+    },
+    {
+      "id": "machine:acme-vps-2",
+      "kind": "machine",
+      "target": "acme-vps-2",
+      "adapter": "ssh-uptime",
+      "state": "ok",
+      "label": "Checks normal",
+      "ageMs": 180000,
+      "expiresAfter": "15m",
+      "detail": "Uptime check succeeded",
+      "metrics": { "cpu": 44, "memory": 63, "disk": 71 }
+    },
+    {
+      "id": "app:example-app",
+      "kind": "app",
+      "target": "example-app",
+      "adapter": "http",
+      "state": "fail",
+      "label": "HTTP 502",
+      "ageMs": 360000,
+      "expiresAfter": "2h",
+      "detail": "HTTP 502 on app.example.com three checks in a row · acme-vps-2",
+      "attention": true
+    },
+    {
+      "id": "deploy:example-app",
+      "kind": "deploy",
+      "target": "example-app",
+      "adapter": "github-actions",
+      "state": "fail",
+      "label": "Failed",
+      "ageMs": 360000,
+      "expiresAfter": "24h",
+      "detail": "deploy.yml on main failed",
+      "attention": false
+    },
+    {
+      "id": "app:api-gateway",
+      "kind": "app",
+      "target": "api-gateway",
+      "adapter": "http",
+      "state": "ok",
+      "label": "Responding",
+      "ageMs": 300000,
+      "expiresAfter": "2h",
+      "detail": "HTTP 200"
+    },
+    {
+      "id": "deploy:api-gateway",
+      "kind": "deploy",
+      "target": "api-gateway",
+      "adapter": "github-actions",
+      "state": "ok",
+      "label": "Succeeded",
+      "ageMs": 86400000,
+      "expiresAfter": "168h",
+      "detail": "deploy.yml on main succeeded"
+    },
+    {
+      "id": "app:docs-site",
+      "kind": "app",
+      "target": "docs-site",
+      "adapter": "http",
+      "state": "auth",
+      "label": "Sign-in required",
+      "ageMs": 300000,
+      "expiresAfter": "2h",
+      "detail": "HTTP 401"
+    },
+    {
+      "id": "deploy:docs-site",
+      "kind": "deploy",
+      "target": "docs-site",
+      "adapter": "github-actions",
+      "state": "running",
+      "label": "Running",
+      "ageMs": 120000,
+      "expiresAfter": "6h",
+      "detail": "deploy.yml on main is running"
+    },
+    {
+      "id": "app:status-page",
+      "kind": "app",
+      "target": "status-page",
+      "adapter": "http",
+      "state": "ok",
+      "label": "Responding",
+      "ageMs": 300000,
+      "expiresAfter": "2h",
+      "detail": "HTTP 200"
+    },
+    {
+      "id": "deploy:status-page",
+      "kind": "deploy",
+      "target": "status-page",
+      "adapter": "static",
+      "state": "unknown",
+      "label": "Not tracked",
+      "ageMs": 300000,
+      "expiresAfter": "720h",
+      "detail": "No workflow is configured",
+      "attention": false
+    },
+    {
+      "id": "deploy:repo-infra",
+      "kind": "deploy",
+      "target": "repo-infra",
+      "adapter": "github-actions",
+      "state": "fail",
+      "label": "Failed",
+      "ageMs": 7200000,
+      "expiresAfter": "24h",
+      "detail": "deploy.yml on main failed",
+      "attention": true
+    },
+    {
+      "id": "agent:triage-bot",
+      "kind": "agent",
+      "target": "triage-bot",
+      "adapter": "heartbeat",
+      "state": "ok",
+      "label": "Working",
+      "ageMs": 120000,
+      "expiresAfter": "2h",
+      "detail": "Heartbeat is fresh"
+    },
+    {
+      "id": "agent:deploy-bot",
+      "kind": "agent",
+      "target": "deploy-bot",
+      "adapter": "heartbeat",
+      "state": "ok",
+      "label": "Working",
+      "ageMs": 180000,
+      "expiresAfter": "2h",
+      "detail": "Heartbeat is fresh"
+    },
+    {
+      "id": "agent:review-bot",
+      "kind": "agent",
+      "target": "review-bot",
+      "adapter": "heartbeat",
+      "state": "ok",
+      "label": "Working",
+      "ageMs": 240000,
+      "expiresAfter": "2h",
+      "detail": "Heartbeat is fresh"
+    }
+  ]
+}

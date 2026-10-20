@@ -1,0 +1,18 @@
+{
+  "name": "opsboard",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Plug-and-play ops dashboard template",
+  "type": "module",
+  "engines": {
+    "node": ">=18"
+  },
+  "scripts": {
+    "build": "node src/build/build.mjs",
+    "dev": "node src/server/dev.mjs",
+    "collect": "node src/collector/collect.mjs",
+    "test": "node --test",
+    "scrub": "node scripts/scrub-check.mjs",
+    "redlines": "node scripts/check-redlines.mjs"
+  }
+}
