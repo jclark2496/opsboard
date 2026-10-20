@@ -168,8 +168,8 @@ main:focus{outline:none}
 .source-note{display:flex;align-items:center;gap:8px;font-size:13px;color:var(--secondary);margin-top:25px;padding:13px 0;border-bottom:1px solid var(--line);flex-wrap:wrap}
 .source-note .icon{width:16px;height:16px}
 .source-note button{color:var(--accent);text-decoration:underline;text-underline-offset:3px;font-size:13px;margin-left:auto;padding:4px}
-.infra-locations{display:grid;grid-template-columns:1fr 1fr;gap:26px}
-.infra-locations .machine-grid{grid-template-columns:1fr}
+.infra-locations{display:grid;grid-template-columns:minmax(0,1fr);gap:0;align-items:start}
+.infra-place{grid-column:1/-1;min-width:0}
 .infra-locations .machine-card{padding:25px}
 .infra-locations .machine-card p{min-height:0}
 .infra-locations .machine-top{margin-bottom:14px}
@@ -501,7 +501,6 @@ main{padding:22px 20px 12px}
 .app-row>.icon{display:none}
 .source-note{margin-top:20px;font-size:12px}
 .source-note button{margin-left:0;font-size:12px}
-.infra-locations{gap:18px}
 .place-heading{gap:8px;flex-wrap:wrap}
 .place-heading h2{font-size:20px}
 .place-heading>span{font-size:12px}
@@ -810,7 +809,7 @@ button:active{transform:none}
 .health-coverage-list button{display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:12px;padding:18px;background:var(--surface);border:1px solid var(--line);border-radius:var(--radius);text-align:left;color:var(--ink)}
 .health-coverage-list small{width:100%;color:var(--secondary);font-size:14px}
 .health-fetch-note{color:var(--warn)}
-@media(max-width:640px){.machine-readings dl{gap:5px}.machine-readings dd{font-size:18px}.machine-readings dt{font-size:12px}.machine-readings{margin-top:12px}.health-coverage-list{grid-template-columns:1fr}.health-services li{gap:12px}.health-facts{gap:16px}}
+@media(max-width:640px){.machine-readings dl{gap:5px}.machine-readings dd{font-size:18px}.machine-readings dt{font-size:12px}.machine-readings{margin-top:12px}.health-coverage-list{grid-template-columns:1fr}.health-services li{gap:12px}.health-facts{gap:16px}.infra-locations .machine-grid{grid-template-columns:1fr}}
 @media(max-width:640px){.overview-grid .machine-readings dl{grid-template-columns:1fr;gap:6px}.overview-grid .machine-readings dl>div{display:flex;justify-content:space-between;align-items:baseline;gap:5px}.overview-grid .machine-readings dt{margin:0}.machine-card .machine-readings dd{font-size:18px}}
 @media(max-width:640px){
   .health-detail .machine-readings dl{grid-template-columns:1fr;gap:12px}
