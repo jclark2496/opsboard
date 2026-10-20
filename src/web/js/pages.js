@@ -150,7 +150,11 @@ function agentMini(agent) {
 
 function renderMachines(ctx) {
   if (!(ctx.config.machines || []).length) return emptyBlock("No machines yet", "Add a host in Settings. A heartbeat or an SSH uptime check fills the card.", "settings.html#add-machine");
-  const groups = groupMachines(ctx.config).map((group) => `<section class="place-heading"><h2>${esc(group.name)}</h2><span>${group.machines.length} ${group.machines.every((machine) => machine.kind === "vps") ? "VPS servers" : "machines"}</span></section><div class="machine-grid">${group.machines.map((machine) => machineCard(machine, ctx)).join("")}</div>`).join("");
+  const groups = groupMachines(ctx.config).map((group) => {
+    const noun = group.machines.every((machine) => machine.kind === "vps") ? "VPS servers" : "machines";
+    const cards = group.machines.map((machine) => machineCard(machine, ctx)).join("");
+    return `<section class="infra-place"><div class="place-heading"><h2>${esc(group.name)}</h2><span>${group.machines.length} ${noun}</span></div><div class="machine-grid">${cards}</div></section>`;
+  }).join("");
   return `<nav class="infrastructure-tabs" aria-label="Infrastructure"><a href="#fleet" aria-current="page">Machines</a><a href="#recovery">Recovery</a><a href="#coverage">Monitoring</a></nav><div class="infra-locations" id="fleet">${groups}</div>${renderRecovery(ctx)}<div id="coverage">${renderCoverage(ctx)}</div>`;
 }
 
