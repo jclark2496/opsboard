@@ -1,0 +1,67 @@
+
+/* App relationships use the same evidence colors and type as the workspace. */
+.app-back{display:inline-flex;align-items:center;gap:10px;min-height:44px;color:var(--accent);font-size:16px;text-decoration:none}
+.app-back>.icon{width:18px;transform:rotate(180deg)}
+.app-detail-actions{display:flex;flex-wrap:wrap;align-items:center;gap:16px 24px;margin:14px 0 32px}
+.app-detail-actions .button{font-size:16px;background:var(--surface)}
+.app-summary{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:20px;border-top:0;border-bottom:1px solid var(--line);padding:0 0 24px;margin:0 0 32px}
+.app-summary dt{font-size:15px;margin-bottom:6px}
+.app-summary dd{font-size:19px;font-weight:650;text-align:left}
+.app-operations-layout{display:grid;grid-template-columns:minmax(0,1fr) minmax(270px,330px);gap:48px;align-items:start}
+.app-operations-layout h2{font-size:24px;line-height:1.3;margin-bottom:12px}
+.app-operations-main{min-width:0}
+.app-operations-main>section+section{margin-top:36px}
+.app-scope-note{font-size:16px;color:var(--secondary);max-width:70ch;line-height:1.6;margin:0 0 20px}
+.app-checks{background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:0 22px}
+.app-check-row{display:grid;grid-template-columns:minmax(0,1fr) 180px;gap:20px;padding:22px 0}
+.app-check-row+.app-check-row{border-top:1px solid var(--line)}
+.app-check-row strong{font-size:18px}
+.app-check-row p{font-size:16px;line-height:1.6;color:var(--secondary);margin:7px 0 0}
+.app-provider-results{list-style:none;padding:0;margin:18px 0 0;font-size:16px}
+.app-provider-results li{display:flex;justify-content:space-between;flex-wrap:wrap;gap:5px 16px;padding:10px 0;border-top:1px solid var(--line)}
+.app-provider-results small{display:block;font-size:14px;color:var(--secondary);line-height:1.5}
+.app-provider-failed{color:var(--fail);font-weight:650}
+.app-check-result{display:flex;align-items:flex-end;flex-direction:column;gap:8px;text-align:right;min-width:0}
+.app-check-result small{font-size:14px;line-height:1.5;color:var(--secondary)}
+.app-check-result .status{white-space:normal;text-align:left}
+.app-dependency-list{list-style:none;padding:0;margin:0;border-top:1px solid var(--line)}
+.app-dependency-list>li{display:grid;grid-template-columns:36px minmax(0,1fr) 180px;gap:16px;align-items:start;padding:22px 0;border-bottom:1px solid var(--line)}
+.dependency-symbol{display:grid;place-items:center;background:var(--surface-2);border-radius:8px;width:36px;height:36px;color:var(--secondary)}
+.dependency-symbol .icon{width:21px;height:21px}
+.dependency-role{font-size:14px;color:var(--secondary)}
+.app-dependency-list h3{font-size:18px;line-height:1.4;margin:3px 0 6px;overflow-wrap:anywhere}
+.app-dependency-list h3 .text-button,.app-dependency-list h3 a{font-size:18px;font-weight:650;min-height:32px;display:inline-flex;align-items:center;gap:9px;text-decoration:none;color:var(--accent);text-align:left}
+.app-dependency-list h3 .icon{width:17px;flex-shrink:0}
+.app-dependency-list p{font-size:16px;line-height:1.6;color:var(--secondary);margin:0;max-width:65ch}
+.app-troubleshooting{background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:24px}
+.app-troubleshooting ol{margin:24px 0;padding-left:22px}
+.app-troubleshooting li{padding-left:5px;margin:0 0 24px}
+.app-troubleshooting li::marker{color:var(--accent);font-weight:700}
+.app-troubleshooting h3{font-size:17px;line-height:1.5;margin:0 0 7px}
+.app-troubleshooting p{font-size:16px;line-height:1.6;color:var(--secondary);margin:0}
+.app-help-links{display:flex;flex-direction:column;gap:12px;border-top:1px solid var(--line);padding-top:18px}
+.app-help-links a{display:flex;align-items:center;justify-content:space-between;gap:12px;min-height:44px;font-size:16px;color:var(--accent);text-decoration:none}
+.app-help-links .icon{width:17px;flex-shrink:0}
+.app-source-detail{margin-top:20px;border-top:1px solid var(--line);padding-top:16px}
+.app-source-detail summary{font-size:16px;cursor:pointer;min-height:44px;padding-top:10px}
+.app-source-detail p{margin:12px 0;overflow-wrap:anywhere}
+.app-source-detail a{color:var(--accent)}
+.app-record-actions{display:flex;gap:12px;flex-wrap:wrap;margin:28px 0}
+.app-dated-review{border-left:3px solid var(--line);padding-left:22px}
+.app-dated-review>p{font-size:16px;line-height:1.65;max-width:70ch;overflow-wrap:anywhere}
+.app-dated-review details{margin-top:18px}
+.app-dated-review summary{cursor:pointer;min-height:44px;font-size:16px;font-weight:600;color:var(--accent);padding:10px 0}
+.app-dated-review dl{display:block;border:0;margin:12px 0;padding:0}
+.app-dated-review dl>div{display:block;margin:0 0 18px}
+.app-dated-review dt{font-size:14px;color:var(--secondary);margin-bottom:5px}
+.app-dated-review dd{font-size:16px;line-height:1.6;text-align:left;margin:0;overflow-wrap:anywhere}
+.affected-apps{margin-top:26px}
+.affected-apps>p{color:var(--secondary);font-size:16px;line-height:1.6}
+.affected-apps a{display:grid;grid-template-columns:minmax(0,1fr) auto 18px;gap:12px;align-items:center;border-bottom:1px solid var(--line);padding:14px 0;min-height:48px;font-size:16px;text-decoration:none;color:var(--accent)}
+.affected-apps a small{font-size:14px;color:var(--secondary)}
+.affected-apps .icon{width:18px}
+@media(max-width:1200px){.app-operations-layout{grid-template-columns:minmax(0,1fr);gap:32px}.app-troubleshooting{max-width:760px}.app-operations-main{max-width:960px}}
+@media(max-width:600px){.app-summary{grid-template-columns:1fr;gap:14px}.app-summary>div{display:flex;justify-content:space-between;gap:18px}.app-summary dd{font-size:17px;text-align:right}.app-summary dt{margin:0}}
+@media(max-width:600px){.app-check-row{grid-template-columns:minmax(0,1fr);gap:12px}.app-checks{padding:0 18px}.app-check-result{align-items:flex-start;text-align:left}.app-check-result small{font-size:14px}.app-dependency-list>li{grid-template-columns:30px minmax(0,1fr);gap:10px 14px}.dependency-symbol{width:30px;height:30px}.app-dependency-list .app-check-result{grid-column:2}.app-troubleshooting{padding:20px}.app-detail-actions{gap:12px}.app-detail-actions .button{max-width:100%;overflow-wrap:anywhere;text-align:left}.affected-apps a{grid-template-columns:minmax(0,1fr) 18px}.affected-apps a small{grid-column:1;grid-row:2}.affected-apps a>.icon{grid-column:2;grid-row:1}.app-dependency-list h3 .text-button,.app-dependency-list h3 a{min-height:44px}}
+
+

@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 128 128" role="img">
+  <title>Robot 6</title>
+  <rect width="128" height="128" fill="#fdecef"/>
+  <rect x="44" y="10" width="6" height="22" rx="3" fill="#b32230"/>
+  <rect x="78" y="10" width="6" height="22" rx="3" fill="#b32230"/>
+  <circle cx="47" cy="10" r="5" fill="#ffb6be"/>
+  <circle cx="81" cy="10" r="5" fill="#ffb6be"/>
+  <rect x="32" y="30" width="64" height="70" rx="18" fill="#3a1820"/>
+  <rect x="44" y="46" width="40" height="22" rx="6" fill="#fff8eb"/>
+  <rect x="50" y="52" width="10" height="10" rx="2" fill="#b32230"/>
+  <rect x="68" y="52" width="10" height="10" rx="2" fill="#b32230"/>
+  <rect x="48" y="78" width="32" height="8" rx="4" fill="#ffb6be"/>
+</svg>

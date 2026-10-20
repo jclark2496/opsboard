@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 128 128" role="img">
+  <title>Robot 3</title>
+  <rect width="128" height="128" fill="#fff4df"/>
+  <polygon points="64,16 104,40 104,84 64,108 24,84 24,40" fill="#914500"/>
+  <polygon points="64,28 90,44 90,76 64,92 38,76 38,44" fill="#fff8eb"/>
+  <circle cx="64" cy="58" r="14" fill="#0d2035"/>
+  <circle cx="64" cy="58" r="6" fill="#ffda96"/>
+  <rect x="52" y="78" width="24" height="5" rx="2" fill="#0d2035"/>
+</svg>

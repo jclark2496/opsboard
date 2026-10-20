@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 128 128" role="img">
+  <title>Robot 2</title>
+  <rect width="128" height="128" fill="#e7eefc"/>
+  <circle cx="28" cy="58" r="8" fill="#2452ce"/>
+  <circle cx="100" cy="58" r="8" fill="#2452ce"/>
+  <rect x="30" y="26" width="68" height="62" rx="31" fill="#17243b"/>
+  <rect x="40" y="48" width="48" height="16" rx="8" fill="#afceff"/>
+  <circle cx="52" cy="56" r="3" fill="#17243b"/>
+  <circle cx="76" cy="56" r="3" fill="#17243b"/>
+  <rect x="50" y="94" width="28" height="18" rx="9" fill="#2452ce"/>
+</svg>
