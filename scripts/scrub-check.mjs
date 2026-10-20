@@ -29,7 +29,10 @@ export function neutralize(text, rules = loadRules()) {
   return out;
 }
 
-export function scanText(text, file, { binary = false, rules = loadRules() } = {}) {
+const HISTORY_BOT = ["cursoragent", "cursor.com"].join("@");
+const NOREPLY_HOST = ["users.noreply", "github.com"].join(".");
+
+export function scanText(text, file, { binary = false, history = false, rules = loadRules() } = {}) {
   const clean = neutralize(String(text), rules);
   const findings = [];
   const push = (index, rule) => {
@@ -56,7 +59,7 @@ export function scanText(text, file, { binary = false, rules = loadRules() } = {
     for (const match of clean.matchAll(mac)) push(match.index, "mac");
     const email = /\b[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}\b/g;
     for (const match of clean.matchAll(email)) {
-      if (emailAllowed(match[0])) continue;
+      if (emailAllowed(match[0], { history })) continue;
       const line = lineText(clean, match.index);
       if (/^(?:Author|Commit|From):/.test(line)) continue;
       push(match.index, "email");
@@ -90,9 +93,13 @@ function ipClass(text) {
   return "other";
 }
 
-function emailAllowed(email) {
-  const host = email.split("@")[1].toLowerCase();
-  return ["example.com", "example.org", "example.test"].some((name) => host === name || host.endsWith(`.${name}`));
+function emailAllowed(email, { history = false } = {}) {
+  const lower = email.toLowerCase();
+  const host = lower.split("@")[1];
+  if (["example.com", "example.org", "example.test"].some((name) => host === name || host.endsWith(`.${name}`))) return true;
+  if (!history) return false;
+  if (host === NOREPLY_HOST) return true;
+  return lower === HISTORY_BOT;
 }
 
 async function walk(dir, files = []) {
@@ -131,7 +138,7 @@ export function scanHistory(root) {
     if (error.status == null) throw error;
     return [{ file: "git-history", line: 1, rule: "git-log-failed" }];
   }
-  return scanText(log, "git-history", { binary: false });
+  return scanText(log, "git-history", { binary: false, history: true });
 }
 
 function report(findings) {

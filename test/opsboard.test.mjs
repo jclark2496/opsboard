@@ -187,6 +187,25 @@ test("scrub flags a planted term and accepts the documentation address", () => {
   assert.equal(scanText("ops@example.com", "config.json").length, 0);
 });
 
+test("git history allows noreply and the agent mailbox only", () => {
+  const bot = ["cursoragent", "cursor.com"].join("@");
+  const noreply = ["34655449+dev", ["users.noreply", "github.com"].join(".")].join("@");
+  const other = ["person", "example.net"].join("@");
+  const log = [
+    `    Co-authored-by: Cursor Agent <${bot}>`,
+    `    Co-authored-by: Dev <${noreply}>`,
+    `    Co-authored-by: Person <${other}>`,
+  ].join("\n");
+  const history = scanText(log, "git-history", { history: true });
+  const emails = history.filter((finding) => finding.rule === "email");
+  assert.equal(emails.length, 1);
+  assert.equal(emails[0].line, 3);
+  assert.equal(scanText(bot, "notes.md").some((finding) => finding.rule === "email"), true);
+  assert.equal(scanText(noreply, "notes.md").some((finding) => finding.rule === "email"), true);
+  const planted = ["fig", "-ops"].join("");
+  assert.equal(scanText(`${planted} <${bot}>`, "git-history", { history: true }).some((finding) => finding.rule === `term:${planted}`), true);
+});
+
 test("scrub check passes on this tree", () => {
   const result = spawnSync(process.execPath, ["scripts/scrub-check.mjs"], { cwd: root, encoding: "utf8" });
   assert.equal(result.status, 0, `${result.stdout}\n${result.stderr}`);
