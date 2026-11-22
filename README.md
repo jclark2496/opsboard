@@ -27,7 +27,7 @@ See which machines, sites, deployments, and agents need attention on one dashboa
 
 - Collect HTTP, GitHub Actions, heartbeat, SSH uptime, JSON endpoint, and static checks. Send host heartbeats from Node, shell, or PowerShell, with an optional five-minute systemd timer.
 - Add machines, apps, repositories, and agents in **Settings**. Test connections, review changes, validate the draft, and copy or download the JSON. The local development server can also save it to disk.
-- Serve the board as a static site with scheduled status updates. The responsive layout has light and dark themes, a populated demo, and an empty state for a new installation.
+- Serve the board as a static site with scheduled status updates. The responsive layout includes high-contrast light and dark themes. It follows your operating system until you choose a theme in the browser.
 
 <a id="quick-start"></a>
 
@@ -41,7 +41,7 @@ cd opsboard
 npm run dev
 ```
 
-Open [localhost:4173](http://localhost:4173). The **Your Ops** sample board opens with **Worth a look**, machine cards, and apps already populated. Open an app to see its website and deploy checks side by side. Turning demo data off in a fresh checkout shows the empty board.
+Open [localhost:4173](http://localhost:4173). The **Your Ops** sample board opens with **Worth a look**, machine cards, and apps already populated. Open an app to see its website and deploy checks side by side. Turn off demo data from the Overview notice or in Settings to see the empty board in a fresh checkout.
 
 ## One design decision
 
@@ -53,7 +53,7 @@ Start from the [example config](switchboard.config.example.json) or add your fir
 
 | Configure | Fields |
 | --- | --- |
-| Board identity | `board.name` for the header and title, `board.wordmark` for the rail, `board.tagline` for the overview, `board.timezone` for timestamps. |
+| Board identity | `board.name` for the page title and default footer, `board.wordmark` for the rail, `board.tagline` for the overview, `board.timezone` for timestamps. |
 | Appearance and access | `theme.mode` accepts `system`, `light`, or `dark`. A saved browser preference takes precedence. Set `board.auth` to `gate` when an external sign-in gate protects the site. |
 | Infrastructure and apps | `machines[]` records hosts, SSH users, locations, and checks. `apps[]` connects a site to its health URL, host, dependencies, and troubleshooting steps. |
 | Deploys and agents | `repos[]` records repositories, branches, workflows, and token variable names. `agents[]` sets roles, `reportsTo`, heartbeat checks, and portraits (`robot-1` through `robot-6`). |
@@ -67,14 +67,14 @@ A check has an adapter, options, and an optional attention flag, for example `{ 
 
 | Adapter | Evidence it collects |
 | --- | --- |
-| `http` | GET the health URL. HTTP 200 or another configured expected code counts as responding. The check distinguishes sign-in (401/403), redirects, timeouts, and failures. |
+| `http` | GET the health URL. HTTP 200 is the default success code. Set `options.expect` for a different list of expected codes. The check distinguishes sign-in (401/403), redirects, timeouts, and failures. |
 | `github-actions` | Read recent workflow runs, optionally filtered by branch and workflow in the check options, and report the latest matching release run. |
 | `heartbeat` | Read a timestamped report from a file or URL. An explicit `ok: false` fails the check. A report older than `maxAge` is stale. |
 | `ssh-uptime` | Read Linux `/proc/uptime` as the configured user. The collector pins the host key, removes its temporary key files after the check, and records a short error category. |
 | `json` | Fetch an endpoint and compare a dotted path such as `$.a.b[0]` with `okValue`. An optional request header comes from an environment variable. |
-| `static` | Display a configured state and label for a target with no live check. |
+| `static` | Display a configured state and label for a target with no live check. Its default expiry is 720 hours. |
 
-The collector processes up to four targets at a time and writes `status/status.json`. A thrown check becomes `unknown` while collection continues. The available states are `ok`, `warn`, `fail`, `stale`, `unknown`, `auth`, `running`, and `redirect`. Each module implements `id`, `kinds`, `schema`, `env`, `check(target, options, ctx)`, and `demo()`. [Adapter implementations](adapters/) · [Collector](src/collector/runner.mjs)
+The collector processes up to four targets at a time and writes `status/status.json`. A thrown check becomes `unknown` while collection continues. The available states are `ok`, `warn`, `fail`, `stale`, `unknown`, `auth`, `running`, and `redirect`. Each module implements `id`, `kinds`, `schema`, `env`, `check(target, options, ctx)`, and `demo()`. The CLI supplies a context with `fetch`, `env`, `now`, `timeoutMs`, and `readFile` for heartbeat files. The SSH adapter also accepts an injected `ctx.exec` for tests. [Adapter implementations](adapters/) · [Collector](src/collector/runner.mjs)
 
 ### Heartbeat reporter
 
@@ -89,7 +89,7 @@ node reporter/heartbeat.mjs
 
 The reporter sends `id`, `observedAt`, `ok`, and `metrics` in a bearer-authenticated POST. The local dev server accepts `/api/heartbeat` and saves `heartbeats/<id>.json` when the token matches `HEARTBEAT_TOKEN_<ID>` (uppercase, hyphens replaced with underscores) or `OPSBOARD_HEARTBEAT_TOKEN`. GitHub Pages requires a separate receiver. [Shell reporter](reporter/heartbeat.sh) · [PowerShell reporter](reporter/heartbeat.ps1) · [systemd timer](reporter/opsboard-heartbeat.timer)
 
-The Settings **Test** button can use the localhost development API. On static hosting it can probe a public HTTP endpoint that permits browser requests or check a public GitHub repository’s visibility. SSH checks and file-based heartbeats require a collector.
+The Settings **Test** button uses `/api/test` on localhost with the development server running. On static hosting it can probe a public HTTP endpoint that permits browser requests or check a public GitHub repository’s visibility. SSH checks and file-based heartbeats require a collector.
 
 ## Deploy on GitHub Pages
 
@@ -110,12 +110,20 @@ Schedule these commands where the collector can reach your targets. Publish `dis
 ## Security
 
 - Treat every field in the published board as visible to its readers, including hostnames, runbooks, and URLs. Put a real inventory behind your host’s access controls, Cloudflare Access, or oauth2-proxy. The `board.auth` setting documents an existing gate. Overview warns when a populated board has it set to `none`.
-- Keep actual credentials in the collector environment. The config only names variables such as `tokenEnv`, `keyEnv`, `knownHostsEnv`, and `headerEnv`. Validation rejects common secret fields and token formats. Use a token with workflow run read access scoped to the intended repositories.
+- Keep actual credentials in the collector environment. The config only names variables such as `tokenEnv`, `keyEnv`, `knownHostsEnv`, and `headerEnv`. The Settings preview shows variable names and masks string values in fields named for secrets, such as `password` or `token`. Validation rejects common secret fields and token formats. Use a token with workflow run read access scoped to the intended repositories.
 - Keep SSH checks, private admin URLs, and heartbeat receivers on a private network such as Tailscale or WireGuard. A hosted runner needs its own network access. Keep private keys, tokens, and SSH files out of the repository.
 
 ## Screenshots
 
-The demo also includes [Settings](docs/screenshots/settings.png), the [empty state](docs/screenshots/empty.png), the [agent org chart](docs/screenshots/agents.png), and the [phone layout](docs/screenshots/phone.png).
+Select a screenshot to open the full image.
+
+| Settings | Empty board |
+| --- | --- |
+| [![Configuration editor](docs/screenshots/settings.png)](docs/screenshots/settings.png) | [![Overview before adding inventory](docs/screenshots/empty.png)](docs/screenshots/empty.png) |
+
+| Agent reporting tree | Phone overview |
+| --- | --- |
+| [![Agent reporting relationships](docs/screenshots/agents.png)](docs/screenshots/agents.png) | [<img src="docs/screenshots/phone.png" alt="Overview on a phone" width="180">](docs/screenshots/phone.png) |
 
 ## Project details
 
